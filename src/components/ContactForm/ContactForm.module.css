@@ -1,0 +1,32 @@
+.blockForm {
+  max-width: 450px;
+  padding: 20px 15px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.formLabel {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.formInput {
+  padding: 8px 16px;
+}
+
+.error {
+  color: red;
+}
+.btn {
+  display: block;
+  margin: 0 auto;
+  background-color: #fff;
+  color: black;
+}
