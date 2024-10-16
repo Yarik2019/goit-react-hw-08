@@ -1,31 +1,34 @@
-import ContactForm from "../ContactForm/ContactForm";
-import SearchBox from "../SearchBox/SearchBox";
-import ContactList from "../ContactList/ContactList";
-import s from "./App.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { fetchContacts } from "../../redux/contactsOps";
-import { selectIsError, selectIsLoading } from "../../redux/selectors";
-import Loader from "../Loader/Loader";
-import ErrorMessages from "../ErrorMessages/ErrorMessages";
+// import s from "./App.module.css";
+import { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+
+// import RestrictedRoute from "../RestrictedRoute/RestrictedRoute";
+
+const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
+const ContactsPage = lazy(() =>
+  import("../../pages/ContactsPage/ContactsPage")
+);
+const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
+const RegistrationPage = lazy(() =>
+  import("../../pages/RegistrationPage/RegistrationPage")
+);
+const NotFound = lazy(() => import("../../pages/NotFound/NotFound"));
 
 function App() {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const isError = useSelector(selectIsError);
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
   return (
-    <div className={s.wrapper}>
-      <h1 className={s.title}>Phonebook</h1>
-
-      <ContactForm />
-      <SearchBox />
-      {isLoading && !isError && <Loader />}
-      {isError && <ErrorMessages message={isError} />}
-      <ContactList />
-    </div>
+    <Suspense fallback={<h1>loading</h1>}>
+      <Routes>
+        <Route path="/" element={<PrivateRoute />}>
+          <Route index element={<HomePage />} />
+          <Route path="contacts" element={<ContactsPage />} />
+        </Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="*" element={<NotFound />} />
+        {/* <Route path="/login" element={<RestrictedRoute />}></Route> */}
+      </Routes>
+    </Suspense>
   );
 }
 
