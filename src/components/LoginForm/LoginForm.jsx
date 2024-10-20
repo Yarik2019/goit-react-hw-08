@@ -13,7 +13,6 @@ function LoginForm() {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log(resetForm);
     dispatch(logIn(values));
     resetForm();
   };
